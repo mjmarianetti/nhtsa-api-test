@@ -41,6 +41,10 @@ and if you only want to run integration tests:
 
     phpunit tests/integration
 
+### Coverage
+
+![Code Coverage](./docs/coverage.png "Code Coverage")
+
 ## <a name="env"></a> Env variables
 
 | Environment variable name | Description |
