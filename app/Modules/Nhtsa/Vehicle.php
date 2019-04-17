@@ -6,6 +6,7 @@ use Exception;
 
 class Vehicle
 {
+    private $data;
 
     public function __construct(array $data)
     {

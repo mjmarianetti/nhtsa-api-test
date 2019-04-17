@@ -16,7 +16,9 @@ class UrlHelperTest extends TestCase
         ];
         $expectedResult = 'test/test1/test2';
 
-        $result = UrlHelper::replaceUrlPathParameters($url, $data);
+        $urlHelper = new UrlHelper();
+
+        $result = $urlHelper->replaceUrlPathParameters($url, $data);
 
         $this->assertEquals($result, $expectedResult);
     }

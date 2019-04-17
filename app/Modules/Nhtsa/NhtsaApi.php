@@ -12,6 +12,9 @@ use Psr\Http\Message\ResponseInterface;
 
 class NhtsaApi
 {
+    private $client;
+    private $responseTransform;
+    private $urlHelper;
 
     const API_URLS = [
         'Vehicles' => 'modelyear/{modelYear}/make/{manufacturer}/model/{model}',
@@ -19,16 +22,31 @@ class NhtsaApi
     ];
     const RESPONSE_FORMAT = 'json';
 
-    public function __construct(Client $client, ResponseTransform $transform)
+    public function __construct(Client $client, ResponseTransform $transform,UrlHelper $urlHelper)
     {
         $this->client = $client;
         $this->responseTransform = $transform;
+        $this->urlHelper = $urlHelper;
+    }
+
+    public function _getDefaultOptions()
+    {
+        return [
+            'query' => [
+                'format' => self::RESPONSE_FORMAT,
+            ],
+        ];
+    }
+
+    public function _getVehicleId(array $data, int $count): int
+    {
+        return $data['Results'][$count]['VehicleId'];
     }
 
     public function getVehicles(string $modelYear, string $manufacturer, string $model, bool $withRating): array
     {
 
-        $url = UrlHelper::replaceUrlPathParameters(self::API_URLS['Vehicles'], [
+        $url = $this->urlHelper->replaceUrlPathParameters(self::API_URLS['Vehicles'], [
             'modelYear' => $modelYear,
             'manufacturer' => $manufacturer,
             'model' => $model,
@@ -79,11 +97,6 @@ class NhtsaApi
         return $parsedResponse;
     }
 
-    public function _getVehicleId(array $data, int $count): int
-    {
-        return $data['Results'][$count]['VehicleId'];
-    }
-
     public function _getVehicleDetailsAsync($ids): array
     {
         $promises = [];
@@ -97,19 +110,11 @@ class NhtsaApi
         return Promise\settle($promises)->wait();
     }
 
-    public function _getDefaultOptions()
-    {
-        return [
-            'query' => [
-                'format' => self::RESPONSE_FORMAT,
-            ],
-        ];
-    }
 
     public function getVehicleAsync(int $vehicleId): Response
     {
 
-        $url = UrlHelper::replaceUrlPathParameters(self::API_URLS['VehicleDetails'], [
+        $url = $this->urlHelper->replaceUrlPathParameters(self::API_URLS['VehicleDetails'], [
             'vehicleId' => $vehicleId,
         ]);
 
