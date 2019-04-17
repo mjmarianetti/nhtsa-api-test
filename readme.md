@@ -1,5 +1,11 @@
 # NHTSA Test API
 
+## Description
+
+This is an example PHP project to request car information from nhtsa.
+
+This project is based on the Lumen framework
+
 ## Requirements
 
 The following packages are required by conquest-local
@@ -12,6 +18,7 @@ The following packages are required by conquest-local
 ## Setup
 
 - Clone this repository
+- Run `$ cd nhtsa-api-test` (if you used the default project name)
 - Copy the .env.example file to a new file called .env `$ cp .env.example .env`
 - Configure .env variables (see [env](#env))
 - Run `$ composer install`
@@ -51,6 +58,8 @@ and if you only want to run integration tests:
 ## Improvements
 
 If this was intended to be deployed to production we should:
+- Add a cache solution like Redis or memcached to stop requesting the same data to nhtsa over and over again
+- Add a Loggin solution to keep all the log information centralized and easy to query if needed.
 - Add docker to easily spin up a new environment (adding nginx, php, etc.)
 - Add a Swagger documentation and/or postman collection to help the frontend and QA to test and use this API
 - Use the kubernetes and terraform to deploy
