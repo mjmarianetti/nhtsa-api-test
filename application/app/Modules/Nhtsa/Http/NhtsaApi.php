@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Modules\Nhtsa;
+namespace App\Modules\Nhtsa\Http;
 
 use App\Modules\Nhtsa\Helpers\UrlHelper;
-use App\Modules\Nhtsa\NhtsaResponseTransform as ResponseTransform;
+use App\Modules\Nhtsa\Http\Responses\Transform;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Promise;
@@ -22,14 +22,26 @@ class NhtsaApi
     ];
     const RESPONSE_FORMAT = 'json';
 
-    public function __construct(Client $client, ResponseTransform $transform,UrlHelper $urlHelper)
+    /**
+     * Constructor
+     *
+     * @param GuzzleHttp\Client $client guzzle client for making http requests
+     * @param App\Modules\Nhtsa\Transform $transform transformation class
+     * @param App\Modules\Nhtsa\Helpers\UrlHelper $urlHelper url helper to parse path params
+     */
+    public function __construct(Client $client, Transform $transform,UrlHelper $urlHelper)
     {
         $this->client = $client;
         $this->responseTransform = $transform;
         $this->urlHelper = $urlHelper;
     }
 
-    public function _getDefaultOptions()
+    /**
+     * _getDefaultOptions
+     *
+     * @return array with default options
+     */
+    public function _getDefaultOptions() : array
     {
         return [
             'query' => [
@@ -38,11 +50,27 @@ class NhtsaApi
         ];
     }
 
+    /**
+     * _getVehicleId function
+     *
+     * @param array $data array containing API data
+     * @param integer $count index to search
+     * @return integer vehicleId
+     */
     public function _getVehicleId(array $data, int $count): int
     {
         return $data['Results'][$count]['VehicleId'];
     }
 
+    /**
+     * getVehicles function
+     *
+     * @param string $modelYear
+     * @param string $manufacturer
+     * @param string $model
+     * @param boolean $withRating
+     * @return array with the response already transformed to the format needed
+     */
     public function getVehicles(string $modelYear, string $manufacturer, string $model, bool $withRating): array
     {
 
@@ -73,6 +101,12 @@ class NhtsaApi
         return $this->responseTransform->transform($parsedResponse);
     }
 
+    /**
+     * Undocumented function
+     *
+     * @param array $parsedResponse response from getVehicles
+     * @return array with the response plus vehicle details
+     */
     public function _addVehiclesRating(array $parsedResponse): array
     {
         $ids = [];
@@ -97,6 +131,14 @@ class NhtsaApi
         return $parsedResponse;
     }
 
+    /**
+     * _getVehicleDetailsAsync function
+     *
+     * loops and gets the details of every vehicle ID received
+     *
+     * @param [type] $ids
+     * @return array of promises containing the response from the HTTP endpoint
+     */
     public function _getVehicleDetailsAsync($ids): array
     {
         $promises = [];
@@ -110,7 +152,14 @@ class NhtsaApi
         return Promise\settle($promises)->wait();
     }
 
-
+    /**
+     * getVehicleAsync function
+     *
+     * performs an async http request to get the vehicle details
+     *
+     * @param integer $vehicleId
+     * @return Response
+     */
     public function getVehicleAsync(int $vehicleId): Response
     {
 

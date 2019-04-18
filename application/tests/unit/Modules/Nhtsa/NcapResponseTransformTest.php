@@ -2,7 +2,7 @@
 
 namespace Tests\Integration;
 
-use App\Modules\Nhtsa\NhtsaResponseTransform;
+use App\Modules\Nhtsa\Http\Responses\NhtsaResponseTransform;
 use Tests\TestCase;
 
 class NhtsaResponseTransformTest extends TestCase

@@ -3,7 +3,7 @@
 namespace Tests\Integration;
 
 use Tests\TestCase;
-use App\Modules\Nhtsa\Vehicle;
+use App\Modules\Nhtsa\Models\Vehicle;
 use Exception;
 
 class VehicleTest extends TestCase

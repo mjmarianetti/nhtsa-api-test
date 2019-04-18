@@ -8,30 +8,48 @@ This project is based on the Lumen framework
 
 ## Requirements
 
-The following packages are required by conquest-local
+The following packages are required by this package
 
 | Package Name | URL | Minimum required version |
 | ------------ | --- | ------------------------ |
 | PHP | https://www.php.net/ | 7.2+ |
 | PHPUnit | https://phpunit.de/ | 6.5.14+ |
 
-## Setup
+Optional packages 
 
-- Clone this repository
-- Run `$ cd nhtsa-api-test` (if you used the default project name)
-- Copy the .env.example file to a new file called .env `$ cp .env.example .env`
-- Configure .env variables (see [env](#env))
-- Run `$ composer install`
-- Run `$ php artisan key:generate` to generate a new application key in `.env`
-- Run the PHP development server with `$ php -S localhost:8080 -t public`
+| Package Name | URL | Minimum required version |
+| ------------ | --- | ------------------------ |
+| Docker | https://www.docker.com/ | latest |
+| Docker-Compose | https://docs.docker.com/compose/ | latest |
+
+
+## <a name="setup"></a> Setup
+
+1. Clone this repository
+2. Run `$ cd nhtsa-api-test` (if you used the default project name)
+3. Run `$ cd application`
+4. Copy the .env.example file to a new file called .env with `$ cp .env.example .env`
+5. Configure envinronment variables in `.env` (see [env](#env))
+6. Run `$ composer install`
+7. Run `$ php artisan key:generate` to generate a new application key in `.env`
+8. Run the PHP development server with `$ php -S localhost:8080 -t public` (for docker see [docker](#docker))
+
+### <a name="docker"></a> Alternate steps (Using Docker)
+
+If you prefer to use docker run 1-7 from [setup](#setup) and then go back to the root directory (`$ cd ../`) and run
+
+    docker-compose up
+
 
 ## Tests
 
-You can run test by simply running:
+Go to the `application` directory using `$ cd application`
+
+Then you can run tests by simply running:
 
     phpunit
 
-This will run unit and integrations tests (you must have the server up and running)
+This will run unit and integrations tests (you **must** have the server up and running)
 
 If you only want to run unit tests use:
 
@@ -43,7 +61,7 @@ and if you only want to run integration tests:
 
 ### Coverage
 
-![Code Coverage](./docs/coverage.png "Code Coverage")
+![Code Coverage](./application/docs/coverage.png "Code Coverage")
 
 ## <a name="env"></a> Env variables
 

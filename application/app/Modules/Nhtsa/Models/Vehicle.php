@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Nhtsa;
+namespace App\Modules\Nhtsa\Models;
 
 use Exception;
 
@@ -8,11 +8,22 @@ class Vehicle
 {
     private $data;
 
+    /**
+     * __construct function
+     *
+     * @param array $data
+     */
     public function __construct(array $data)
     {
         $this->data = $this->transform($data);
     }
 
+    /**
+     * transform function
+     *
+     * @param array $data
+     * @return array with the data transformed
+     */
     public function transform(array $data) : array
     {
 
@@ -37,6 +48,11 @@ class Vehicle
         return $response;
     }
 
+    /**
+     * toArray function
+     *
+     * @return array
+     */
     public function toArray() : array
     {
         return $this->data;

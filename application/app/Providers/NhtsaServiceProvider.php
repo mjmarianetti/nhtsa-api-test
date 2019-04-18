@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Modules\Nhtsa\NhtsaApi;
-use App\Modules\Nhtsa\NhtsaResponseTransform;
+use App\Modules\Nhtsa\Http\NhtsaApi;
+use App\Modules\Nhtsa\Http\Responses\NhtsaResponseTransform;
 use App\Modules\Nhtsa\Helpers\UrlHelper;
 use GuzzleHttp\Client as Client;
 

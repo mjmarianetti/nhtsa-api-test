@@ -2,7 +2,7 @@
 
 namespace Tests\Integration;
 
-use App\Modules\Nhtsa\NhtsaApi;
+use App\Modules\Nhtsa\Http\NhtsaApi;
 use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Handler\MockHandler;
@@ -105,7 +105,7 @@ class NhtsaApiTest extends TestCase
         $client = $this->getMockBuilder('GuzzleHttp\Client')
             ->disableOriginalConstructor()
             ->getMock();
-        $transform = $this->getMockBuilder('App\Modules\Nhtsa\NhtsaResponseTransform')
+        $transform = $this->getMockBuilder('App\Modules\Nhtsa\Http\Responses\NhtsaResponseTransform')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -127,7 +127,7 @@ class NhtsaApiTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $transform = $this->getMockBuilder('App\Modules\Nhtsa\NhtsaResponseTransform')
+        $transform = $this->getMockBuilder('App\Modules\Nhtsa\Http\Responses\NhtsaResponseTransform')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -160,7 +160,7 @@ class NhtsaApiTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $transform = $this->getMockBuilder('App\Modules\Nhtsa\NhtsaResponseTransform')
+        $transform = $this->getMockBuilder('App\Modules\Nhtsa\Http\Responses\NhtsaResponseTransform')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -190,7 +190,7 @@ class NhtsaApiTest extends TestCase
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
 
-        $transform = $this->getMockBuilder('App\Modules\Nhtsa\NhtsaResponseTransform')
+        $transform = $this->getMockBuilder('App\Modules\Nhtsa\Http\Responses\NhtsaResponseTransform')
             ->disableOriginalConstructor()
             ->getMock();
 

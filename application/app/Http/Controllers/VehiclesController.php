@@ -3,23 +3,32 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Modules\Nhtsa\NhtsaApi;
+use App\Modules\Nhtsa\Http\NhtsaApi;
 
 class VehiclesController extends Controller
 {
 
-    const VALIDATION_RULES = [
-        /*'modelYear' => 'required',
-        'manufacturer' => 'required',
-        'model' => 'required',
-        'withRating' => 'boolean'*/
-    ];
+    const VALIDATION_RULES = [];
 
+    /**
+     * __construct function
+     *
+     * @param NhtsaApi $NhtsaApi
+     */
     public function __construct(NhtsaApi $NhtsaApi)
     {
         $this->Nhtsa = $NhtsaApi;
     }
 
+    /**
+     * get function
+     *
+     * @param Request $request
+     * @param [type] $modelYear
+     * @param [type] $manufacturer
+     * @param [type] $model
+     * @return void
+     */
     public function get(Request $request, $modelYear, $manufacturer, $model)
     {
         $request['modelYear'] = $modelYear;
@@ -35,6 +44,12 @@ class VehiclesController extends Controller
         return response()->json($result);
     }
 
+    /**
+     * store function
+     *
+     * @param Request $request
+     * @return void
+     */
     public function store(Request $request)
     {
         $request['withRating'] = filter_var($request->get('withRating'), FILTER_VALIDATE_BOOLEAN);
@@ -45,7 +60,15 @@ class VehiclesController extends Controller
         return response()->json($result);
     }
 
-    public function _getVehicles($input) {
+    /**
+     * _getVehicles function
+     *
+     * it is a helper function to perform requests to the Nhtsa api
+     *
+     * @param array $input
+     * @return array
+     */
+    public function _getVehicles(array $input) : array {
         return $this->Nhtsa->getVehicles($input['modelYear'], $input['manufacturer'], $input['model'], $input['withRating']);
     }
 }
